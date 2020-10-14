@@ -1,19 +1,22 @@
 package com.ecom.ecomMomgo.services;
 
 import java.util.List;
+
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 import com.ecom.ecomMongo.model.Product;
-import com.ecom.ecomMongo.model.Specification;
 import com.ecom.ecomMongo.repository.ProductRepository;
-import com.ecom.ecomMongo.repository.SpecificationRepository;
 
 @Service
 public class ProductServices {
@@ -21,13 +24,13 @@ public class ProductServices {
 	@Autowired
 	private ProductRepository repository;
 	
-	@Autowired
-    private MongoTemplate mongoTemplate;
+	
 	
 	public List<Product> saveProductService(List<Product> products)
 	{
 		
-		return repository.saveAll(products);
+		//return repository.saveAll(products);
+		return saveMongoOperations(products);
 	}
 	
 	public Optional<Product> getProductById(Integer specid)
@@ -49,5 +52,36 @@ public class ProductServices {
 	public List<Product> getProdctsBySearchCriteria(Map<String, Object> filterMap, Integer limit, Integer offset) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	
+	
+	
+	
+	@Autowired
+	private MongoOperations mongoOperations;
+	
+	@Autowired
+	private MongoTemplate mongoTemplate;
+	
+
+
+	public List<Product> saveMongoOperations(List<Product> products ) {
+		
+
+		TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder().onField("prdDesc").onField("prdName").onField("color").onField("skuCode").build();
+        mongoTemplate.indexOps(Product.class).ensureIndex(textIndex);
+        return mongoTemplate.save(products);
+		
+		
+	}
+
+	public List<Product> findBySearch(String searchValue) {
+		
+
+		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny(searchValue);
+		List<Product> products = mongoOperations.find(query(criteria), Product.class);
+		return products;
 	}
 }
