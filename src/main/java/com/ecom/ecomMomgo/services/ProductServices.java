@@ -30,7 +30,8 @@ public class ProductServices {
 	{
 		
 		//return repository.saveAll(products);
-		return saveMongoOperations(products);
+		 saveMongoOperations(products);
+		 return products;
 	}
 	
 	public Optional<Product> getProductById(Integer specid)
@@ -54,11 +55,6 @@ public class ProductServices {
 		return null;
 	}
 	
-	
-	
-	
-	
-	
 	@Autowired
 	private MongoOperations mongoOperations;
 	
@@ -67,19 +63,20 @@ public class ProductServices {
 	
 
 
-	public List<Product> saveMongoOperations(List<Product> products ) {
-		
+	public String saveMongoOperations(List<Product> products ) {
+		for(Product product:products) {
 
 		TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder().onField("prdDesc").onField("prdName").onField("color").onField("skuCode").build();
         mongoTemplate.indexOps(Product.class).ensureIndex(textIndex);
-        return mongoTemplate.save(products);
+        mongoTemplate.save(product);
+        
+		}
+		return "Saved sucessful";
 		
 		
 	}
 
 	public List<Product> findBySearch(String searchValue) {
-		
-
 		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny(searchValue);
 		List<Product> products = mongoOperations.find(query(criteria), Product.class);
 		return products;
