@@ -5,7 +5,7 @@ spring:
         mongodb:
             authentication-database: admin
             database: ecom_mongo
-            host: 15.207.12.222
+            host: 65.0.194.170
             password: word_pass
             port: 27017
             username: dbuser
