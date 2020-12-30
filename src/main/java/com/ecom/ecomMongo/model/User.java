@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Data
-@NoArgsConstructor
 @javax.persistence.Table(name="USER")
 public class User {
 	@Id

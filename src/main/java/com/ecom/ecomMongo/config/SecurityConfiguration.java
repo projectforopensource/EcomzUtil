@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 	                .addFilter(new JwtAuthorizationFilter(authenticationManager(),  this.userRepository))
 	                .authorizeRequests()
 	                .antMatchers(HttpMethod.POST, "/login").permitAll()
-	                .antMatchers("/v1/**").permitAll()
+	                .antMatchers("/**").permitAll()
 					/*
 					 * .antMatchers("/v1/findAllProducts").permitAll()
 					 * .antMatchers("/swagger-ui.html#/").permitAll()
