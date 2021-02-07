@@ -1,47 +1,35 @@
 server:
     port: 15001
+    
 spring:
-    data:
-        mongodb:
-            authentication-database: admin
-            database: ecom_mongo
-            host: 65.0.194.170
-            password: word_pass
-            port: 27017
-            username: dbuser
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      format_sql: true
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://15.207.103.249:3306/divatt
+    username: divatt_user
+    password: P@ssw0rd123
+  data:
+    mongodb:
+      authentication-database: admin
+      database: ecom_mongo
+      host: 65.0.194.170
+      password: word_pass
+      port: 27017
+      username: dbuser 
+
 divatt: 
   search:
     allowedFields: status
     longTypes: versionNumber
     
-    
-    
-    spring:
-      datasource:
-      driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://15.207.103.249:3306/notes_app?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-      username: root
-      password: Passw0rd123
-    
-    jpa:
-        show-sql:true
-      generate-ddl:true
-     
-    hibernate:
-      ddl-auto:create-drop
-      format_sql:true
-      
-      
-      
-  application:
+application:
     name: ecomOauth
-         
+          
 logging:
   level:
-    org.springframework.security: DEBUG
-      
-    
-    
-    
-
-
+    org.springframework.security: DEBUG       
