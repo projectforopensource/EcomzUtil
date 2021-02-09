@@ -63,6 +63,14 @@ public class ProductController {
 				.orElseThrow(() -> new RuntimeException("Could not get product"));
 	}
 	
+	@GetMapping("/findProductListByDesignerName/{designerName}")
+	public ResponseEntity<?> getProductsByDesigner(@PathVariable String designerName){
+		
+		return (ResponseEntity<?>) Optional.of(service.findProductsByDesigner(designerName))
+				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+				.orElseThrow(() -> new RuntimeException("Could not get product"));
+	}
+	
 
 
 }

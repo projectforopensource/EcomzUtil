@@ -101,6 +101,10 @@ public class Product {
 	
 	public int prodRefId;
 	
+	public String uploadBy;
+	
+	public String designerName;
+	
 	 public int getRowIndex() {
 		return rowIndex;
 	}
@@ -451,6 +455,22 @@ public class Product {
 
 	public void setProdRefId(int prodRefId) {
 		this.prodRefId = prodRefId;
+	}
+
+	public String getUploadBy() {
+		return uploadBy;
+	}
+
+	public void setUploadBy(String uploadBy) {
+		this.uploadBy = uploadBy;
+	}
+
+	public String getDesignerName() {
+		return designerName;
+	}
+
+	public void setDesignerName(String designerName) {
+		this.designerName = designerName;
 	}
 
 	@Override

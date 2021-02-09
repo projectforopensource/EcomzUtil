@@ -23,29 +23,30 @@ public class ProductServices {
 
 	@Autowired
 	private ProductRepository repository;
-	
-	
-	
-	public List<Product> saveProductService(List<Product> products)
-	{
-		
-		//return repository.saveAll(products);
-		 saveMongoOperations(products);
-		 return products;
+
+	@Autowired
+	private MongoOperations mongoOperations;
+
+	@Autowired
+	private MongoTemplate mongoTemplate;
+
+	public List<Product> saveProductService(List<Product> products) {
+
+		// return repository.saveAll(products);
+		saveMongoOperations(products);
+		return products;
 	}
-	
-	public Optional<Product> getProductById(Integer specid)
-	{
+
+	public Optional<Product> getProductById(Integer specid) {
 		return repository.findById(specid);
 	}
-	
-	public List<Product> getAllProducts()
-	{
+
+	public List<Product> getAllProducts() {
 		return repository.findAll();
 	}
-	
-	public List<Product> findProductsBySubCatId(int id){
-		Query query=new Query();
+
+	public List<Product> findProductsBySubCatId(int id) {
+		Query query = new Query();
 		query.addCriteria(Criteria.where("prodRefId").is(id));
 		return mongoTemplate.find(query, Product.class);
 	}
@@ -54,31 +55,30 @@ public class ProductServices {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	@Autowired
-	private MongoOperations mongoOperations;
-	
-	@Autowired
-	private MongoTemplate mongoTemplate;
-	
 
+	public String saveMongoOperations(List<Product> products) {
+		for (Product product : products) {
 
-	public String saveMongoOperations(List<Product> products ) {
-		for(Product product:products) {
+			TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder().onField("prdDesc")
+					.onField("prdName").onField("color").onField("skuCode").build();
+			mongoTemplate.indexOps(Product.class).ensureIndex(textIndex);
+			mongoTemplate.save(product);
 
-		TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder().onField("prdDesc").onField("prdName").onField("color").onField("skuCode").build();
-        mongoTemplate.indexOps(Product.class).ensureIndex(textIndex);
-        mongoTemplate.save(product);
-        
 		}
 		return "Saved sucessful";
-		
-		
+
 	}
 
 	public List<Product> findBySearch(String searchValue) {
 		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny(searchValue);
 		List<Product> products = mongoOperations.find(query(criteria), Product.class);
 		return products;
+	}
+
+	public List<Product> findProductsByDesigner(String designer) {
+		// TODO Auto-generated method stub
+		Query query = new Query();
+		query.addCriteria(Criteria.where("designerName").is(designer));
+		return mongoTemplate.find(query, Product.class);
 	}
 }
