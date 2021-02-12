@@ -81,4 +81,10 @@ public class ProductServices {
 		query.addCriteria(Criteria.where("designerName").is(designer));
 		return mongoTemplate.find(query, Product.class);
 	}
+	public List<Product> findProductsByDesignerId(Integer id) {
+		// TODO Auto-generated method stub
+		Query query = new Query();
+		query.addCriteria(Criteria.where("designerId").is(id));
+		return mongoTemplate.find(query, Product.class);
+	}
 }

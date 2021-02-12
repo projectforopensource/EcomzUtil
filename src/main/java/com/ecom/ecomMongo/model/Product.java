@@ -105,6 +105,8 @@ public class Product {
 	
 	public String designerName;
 	
+	public Integer designerId;
+	
 	 public int getRowIndex() {
 		return rowIndex;
 	}
@@ -471,6 +473,14 @@ public class Product {
 
 	public void setDesignerName(String designerName) {
 		this.designerName = designerName;
+	}
+
+	public Integer getDesignerId() {
+		return designerId;
+	}
+
+	public void setDesignerId(Integer designerId) {
+		this.designerId = designerId;
 	}
 
 	@Override
