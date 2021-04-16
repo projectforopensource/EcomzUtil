@@ -107,6 +107,10 @@ public class Product {
 	
 	public Integer designerId;
 	
+	public boolean isApproved=false;
+	
+	public String approvedBy;
+	
 	 public int getRowIndex() {
 		return rowIndex;
 	}
@@ -481,6 +485,22 @@ public class Product {
 
 	public void setDesignerId(Integer designerId) {
 		this.designerId = designerId;
+	}
+
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean isApproved) {
+		this.isApproved = isApproved;
+	}
+
+	public String getApprovedBy() {
+		return approvedBy;
+	}
+
+	public void setApprovedBy(String approvedBy) {
+		this.approvedBy = approvedBy;
 	}
 
 	@Override

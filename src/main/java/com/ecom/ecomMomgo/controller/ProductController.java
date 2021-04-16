@@ -1,5 +1,7 @@
 package com.ecom.ecomMomgo.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,6 +79,28 @@ public class ProductController {
 		return (ResponseEntity<?>) Optional.of(service.findProductsByDesignerId(designerId))
 				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
 				.orElseThrow(() -> new RuntimeException("Could not get product"));
+	}
+	@PostMapping("/approveProduct/{productId}/{approvedBy}")
+	public List<Product> approveProduct(@PathVariable Integer productId,@PathVariable String approvedBy)
+	{
+		//ArrayList<Product> prodArray=new ArrayList<Product>();
+		Optional<Product> products=service.getProductById(productId);
+		List<Product> productList=products.isPresent()
+        ?  Collections.singletonList(products.get())
+        :  Collections.emptyList();
+		ArrayList<Product> prodArray=new ArrayList<Product>(productList);
+		if(products.isPresent())
+		{
+			Product p=products.get();
+			p.setApproved(true);
+			p.setApprovedBy(approvedBy);
+			
+			prodArray.add(p);
+			return service.saveProductService(prodArray);
+			
+		}else {
+		return prodArray;
+		}
 	}
 	
 
