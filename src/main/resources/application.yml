@@ -10,14 +10,14 @@ spring:
       format_sql: true
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://15.207.103.249:3306/divatt
-    username: divatt_user
-    password: P@ssw0rd123
+    url: jdbc:mysql://13.233.19.234:3306/divatt
+    username: db_user
+    password: P@sw0rd123
   data:
     mongodb:
       authentication-database: admin
       database: ecom_mongo
-      host: 65.0.194.170
+      host: 65.1.190.195
       password: word_pass
       port: 27017
       username: dbuser 

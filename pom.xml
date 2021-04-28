@@ -19,7 +19,7 @@
 		<spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 	</properties>
 
-<packaging>jar</packaging>
+<packaging>war</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
