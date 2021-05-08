@@ -45,5 +45,13 @@ public class CategoryController {
 				.orElseThrow(() -> new RuntimeException("Could not get Fund events"));
 
 	}
+	
+	@GetMapping(path = "/category/allCatagoryByStatus/{status}")
+	public ResponseEntity<?> findAllCatagoryByStatus(@PathVariable Boolean status) {
+
+		return (ResponseEntity<?>) Optional.of(servie.getCategoryByStatus(status)).map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+				.orElseThrow(() -> new RuntimeException("Could not get Fund events"));
+
+	}
 
 }

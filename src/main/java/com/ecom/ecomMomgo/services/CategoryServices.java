@@ -29,4 +29,9 @@ public class CategoryServices {
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}
+
+	public List<Category> getCategoryByStatus(Boolean status) {
+		// TODO Auto-generated method stub
+		return repository.findByStatus(status);
+	}
 }

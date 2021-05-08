@@ -4,6 +4,8 @@ import java.util.List;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -81,10 +83,27 @@ public class ProductServices {
 		query.addCriteria(Criteria.where("designerName").is(designer));
 		return mongoTemplate.find(query, Product.class);
 	}
-	public List<Product> findProductsByDesignerId(Integer id) {
+	public List<Product> findProductsByDesignerId(String id) {
 		// TODO Auto-generated method stub
 		Query query = new Query();
 		query.addCriteria(Criteria.where("designerId").is(id));
 		return mongoTemplate.find(query, Product.class);
+	}
+
+	public List<Product> getProductByApproval(Boolean isApproved) {
+		// TODO Auto-generated method stub
+		Query query = new Query();
+		query.addCriteria(Criteria.where("isApproved").is(isApproved));
+		return mongoTemplate.find(query, Product.class);
+	}
+	
+	public List<Product> findApprovedProductsByDesignerId(String designerId, Boolean approved) {
+		// TODO Auto-generated method stub
+		Query query = new Query();
+		query.addCriteria(Criteria.where("designerId").is(designerId));
+		List<Product> prodList= mongoTemplate.find(query, Product.class);
+		return prodList.stream()
+				.filter(p->p.isApproved==approved)
+				.collect(Collectors.toList());
 	}
 }

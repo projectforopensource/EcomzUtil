@@ -33,4 +33,9 @@ public class SubcategoryServices {
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}
+
+	public List<SubCategory> getAllSubCategoryByStatus(Boolean status) {
+		// TODO Auto-generated method stub
+		return repository.findByStatus(status);
+	}
 }

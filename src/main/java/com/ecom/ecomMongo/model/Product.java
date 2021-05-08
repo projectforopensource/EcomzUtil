@@ -105,7 +105,7 @@ public class Product {
 	
 	public String designerName;
 	
-	public Integer designerId;
+	public String designerId;
 	
 	public boolean isApproved=false;
 	
@@ -479,11 +479,11 @@ public class Product {
 		this.designerName = designerName;
 	}
 
-	public Integer getDesignerId() {
+	public String getDesignerId() {
 		return designerId;
 	}
 
-	public void setDesignerId(Integer designerId) {
+	public void setDesignerId(String designerId) {
 		this.designerId = designerId;
 	}
 

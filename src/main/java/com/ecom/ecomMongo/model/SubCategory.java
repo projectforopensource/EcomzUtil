@@ -11,11 +11,12 @@ public class SubCategory {
 	private Integer subCategoryId;
 	private String subCategoryName;
 	private String subCategoryDescription;
-	private String status;
+	private Boolean status;
 	private Integer mandatoryAttribute;
 	private String attribute;
 	private Integer preferedAttribute;
 	private Integer indexingAttribute;
+	private String subCategoryUrl;
 	public Integer getCategoryId() {
 		return categoryId;
 	}
@@ -40,10 +41,10 @@ public class SubCategory {
 	public void setSubCategoryDescription(String subCategoryDescription) {
 		this.subCategoryDescription = subCategoryDescription;
 	}
-	public String getStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 	public Integer getMandatoryAttribute() {
@@ -69,6 +70,12 @@ public class SubCategory {
 	}
 	public void setIndexingAttribute(Integer indexingAttribute) {
 		this.indexingAttribute = indexingAttribute;
+	}
+	public String getSubCategoryUrl() {
+		return subCategoryUrl;
+	}
+	public void setSubCategoryUrl(String subCategoryUrl) {
+		this.subCategoryUrl = subCategoryUrl;
 	}
 
 	

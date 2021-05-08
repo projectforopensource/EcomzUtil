@@ -74,14 +74,14 @@ public class ProductController {
 	}
 	
 	@GetMapping("/findProductListByDesignerId/{designerId}")
-	public ResponseEntity<?> getProductsByDesignerId(@PathVariable Integer designerId){
+	public ResponseEntity<?> getProductsByDesignerId(@PathVariable String designerId){
 		
 		return (ResponseEntity<?>) Optional.of(service.findProductsByDesignerId(designerId))
 				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
 				.orElseThrow(() -> new RuntimeException("Could not get product"));
 	}
-	@PostMapping("/approveProduct/{productId}/{approvedBy}")
-	public List<Product> approveProduct(@PathVariable Integer productId,@PathVariable String approvedBy)
+	@PostMapping("/approveProduct/{productId}/{approvedBy}/{isApproved}")
+	public List<Product> approveProduct(@PathVariable Integer productId,@PathVariable String approvedBy,@PathVariable Boolean isApproved)
 	{
 		//ArrayList<Product> prodArray=new ArrayList<Product>();
 		Optional<Product> products=service.getProductById(productId);
@@ -92,7 +92,7 @@ public class ProductController {
 		if(products.isPresent())
 		{
 			Product p=products.get();
-			p.setApproved(true);
+			p.setApproved(isApproved);
 			p.setApprovedBy(approvedBy);
 			
 			prodArray.add(p);
@@ -103,6 +103,19 @@ public class ProductController {
 		}
 	}
 	
+	@GetMapping("/findAllProduct/{isApproved}")
+	public ResponseEntity<?> getProduct(@PathVariable Boolean isApproved) {
 
+		return (ResponseEntity<?>) Optional.of(service.getProductByApproval(isApproved))
+				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+				.orElseThrow(() -> new RuntimeException("Could not get product"));
 
+	}
+	@GetMapping("/findApprovedProductListByDesignerId/{designerId}/{approved}")
+	public ResponseEntity<?> getApprovedProductsByDesignerId(@PathVariable String designerId,@PathVariable Boolean approved){
+		
+		return (ResponseEntity<?>) Optional.of(service.findApprovedProductsByDesignerId(designerId,approved))
+				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+				.orElseThrow(() -> new RuntimeException("Could not get product"));
+	}
 }

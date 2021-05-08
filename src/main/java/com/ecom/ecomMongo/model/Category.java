@@ -13,7 +13,8 @@ public class Category {
 	private Integer categoryId;
 	private String categoryName; 
 	  private String categoryDescription; 
-	  private String status;
+	  private Boolean status;
+	  private String categoryUrl;
 	
 	
 	  public String getCategoryName() {
@@ -32,11 +33,11 @@ public class Category {
 		this.categoryDescription = categoryDescription;
 	}
 
-	public String getStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 
@@ -50,6 +51,14 @@ public class Category {
 
 	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getCategoryUrl() {
+		return categoryUrl;
+	}
+
+	public void setCategoryUrl(String categoryUrl) {
+		this.categoryUrl = categoryUrl;
 	}
 
 	

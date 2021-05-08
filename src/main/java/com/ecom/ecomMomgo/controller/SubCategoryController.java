@@ -47,4 +47,13 @@ public class SubCategoryController {
 				.orElseThrow(() -> new RuntimeException("Could not get Fund events"));
 
 	}
+	
+	@GetMapping(path = "/subCategory/allSubCatagoryByStatus/{status}")
+	public ResponseEntity<?> findAllSubCategoryByStatus(@PathVariable Boolean status) {
+
+		return (ResponseEntity<?>) Optional.of(services.getAllSubCategoryByStatus(status))
+				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+				.orElseThrow(() -> new RuntimeException("Could not get any record"));
+
+	}
 }
