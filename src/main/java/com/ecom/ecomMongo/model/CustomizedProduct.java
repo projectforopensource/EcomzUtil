@@ -1,9 +1,6 @@
 package com.ecom.ecomMongo.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,12 +13,33 @@ public class CustomizedProduct {
 	private Integer id;
 	private String productId;
 	private String designerId;
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "upperBody_id", referencedColumnName = "id")
+	private String orderId;
+	private String status;
+	private String custZName;
+	
 	private UpperBody uBody;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "lowerBody_id", referencedColumnName = "id")
+	
+	public UpperBody getuBody() {
+		return uBody;
+	}
+
+
+	public void setuBody(UpperBody uBody) {
+		this.uBody = uBody;
+	}
+
+
+	public LowerBody getlBody() {
+		return lBody;
+	}
+
+
+	public void setlBody(LowerBody lBody) {
+		this.lBody = lBody;
+	}
+
+
 	private LowerBody lBody;
 	
 	

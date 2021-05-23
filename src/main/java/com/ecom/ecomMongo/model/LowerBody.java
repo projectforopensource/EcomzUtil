@@ -8,13 +8,11 @@ import javax.persistence.OneToOne;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
-@Document(collection = "lowerbody")
+
 @Data
 public class LowerBody {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+
 	private String waiste;
 	private String hip;
 	private String crotch;
@@ -26,6 +24,5 @@ public class LowerBody {
 	private String heapToKnee;
 	private String calf;
 	
-	@OneToOne(mappedBy = "lBody")
-	CustomizedProduct custProduct;
+	
 }

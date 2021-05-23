@@ -9,13 +9,12 @@ import org.hibernate.annotations.GeneratorType;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
-@Document(collection = "UpperBody")
+
 @Data
 public class UpperBody {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	
+	
 	private String collar;
 	private String chest;
 	private String waist;
@@ -29,6 +28,5 @@ public class UpperBody {
 	private String forearm;
 	private String shirtLength;
 	private String shoulderToKneeLength;
-	@OneToOne(mappedBy = "uBody")
-	CustomizedProduct custProduct;
+	
 }

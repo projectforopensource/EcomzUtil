@@ -111,6 +111,16 @@ public class Product {
 	
 	public String approvedBy;
 	
+	public String subCategoryId;
+	
+	public Boolean isCustomizationPossible;
+	
+	public Boolean ifUpperBodyCustomization;
+	
+	public Boolean ifLowerCustomization;
+	
+	
+	
 	 public int getRowIndex() {
 		return rowIndex;
 	}
@@ -491,6 +501,14 @@ public class Product {
 		return isApproved;
 	}
 
+	public String getSubCategoryId() {
+		return subCategoryId;
+	}
+
+	public void setSubCategoryId(String subCategoryId) {
+		this.subCategoryId = subCategoryId;
+	}
+
 	public void setApproved(boolean isApproved) {
 		this.isApproved = isApproved;
 	}
@@ -503,6 +521,31 @@ public class Product {
 		this.approvedBy = approvedBy;
 	}
 
+	public Boolean getIsCustomizationPossible() {
+		return isCustomizationPossible;
+	}
+
+	public void setIsCustomizationPossible(Boolean isCustomizationPossible) {
+		this.isCustomizationPossible = isCustomizationPossible;
+	}
+
+	public Boolean getIfUpperBodyCustomization() {
+		return ifUpperBodyCustomization;
+	}
+
+	public void setIfUpperBodyCustomization(Boolean ifUpperBodyCustomization) {
+		this.ifUpperBodyCustomization = ifUpperBodyCustomization;
+	}
+
+	public Boolean getIfLowerCustomization() {
+		return ifLowerCustomization;
+	}
+
+	public void setIfLowerCustomization(Boolean ifLowerCustomization) {
+		this.ifLowerCustomization = ifLowerCustomization;
+	}
+
+	
 	@Override
 	    public String toString() {
 	        return "Product{" +

@@ -17,7 +17,9 @@ import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+import com.ecom.ecomMongo.model.CustomizedProduct;
 import com.ecom.ecomMongo.model.Product;
+import com.ecom.ecomMongo.repository.CustomizeProductRepository;
 import com.ecom.ecomMongo.repository.ProductRepository;
 
 @Service
@@ -31,6 +33,9 @@ public class ProductServices {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	@Autowired	
+	private CustomizeProductRepository custProductRepo;
 
 	public List<Product> saveProductService(List<Product> products) {
 
@@ -105,5 +110,15 @@ public class ProductServices {
 		return prodList.stream()
 				.filter(p->p.isApproved==approved)
 				.collect(Collectors.toList());
+	}
+
+	public List<CustomizedProduct> findcustomizedProductsByDesignerId(String designerId) {
+		// TODO Auto-generated method stub
+		return custProductRepo.findByDesignerId(designerId);
+	}
+
+	public List<CustomizedProduct> findcustomizedProductsByProductId(String productId) {
+		// TODO Auto-generated method stub
+		return custProductRepo.findByProductId(productId);
 	}
 }

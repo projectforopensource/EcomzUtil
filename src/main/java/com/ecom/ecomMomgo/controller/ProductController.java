@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.ecomMomgo.services.ProductServices;
 import com.ecom.ecomMongo.model.Category;
+import com.ecom.ecomMongo.model.CustomizedProduct;
 import com.ecom.ecomMongo.model.Product;
+import com.ecom.ecomMongo.repository.CustomizeProductRepository;
 import com.ecom.ecomMongo.repository.ProductRepository;
 
 /**
@@ -32,6 +34,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductServices service;
+	
+	@Autowired
+	CustomizeProductRepository custRepo;
 
 	@PostMapping("/addProduct")
 	public void saveProduct(@RequestBody List<Product> products) {
@@ -118,4 +123,36 @@ public class ProductController {
 				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
 				.orElseThrow(() -> new RuntimeException("Could not get product"));
 	}
+	@PostMapping("/saveCustomizationProduct")
+	public ResponseEntity<?> saveCustomisationDetails(@RequestBody CustomizedProduct custProduct)
+	{		
+		custProduct=custRepo.save(custProduct);
+		return ResponseEntity.ok(custProduct);
+		
+	}
+	
+	@GetMapping("/findCustomizedProductListByDesignerId/{designerId}")
+	public ResponseEntity<?> getCustomizedProductsByDesignerId(@PathVariable String designerId){
+		
+		return (ResponseEntity<?>) Optional.of(service.findcustomizedProductsByDesignerId(designerId))
+				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+				.orElseThrow(() -> new RuntimeException("Could not get product"));
+	}
+	
+	@GetMapping("/findAllCustomizedProduct")
+	public ResponseEntity<?> getAllCustomizedProduct(){
+		
+		return (ResponseEntity<?>) Optional.of(custRepo.findAll())
+				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+				.orElseThrow(() -> new RuntimeException("Could not get product"));
+	}
+	
+	@GetMapping("/findCustomizedProductByProductId/{productId}")
+	public ResponseEntity<?> getCustomizedProductsByProductId(@PathVariable String productId){
+		
+		return (ResponseEntity<?>) Optional.of(service.findcustomizedProductsByProductId(productId))
+				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+				.orElseThrow(() -> new RuntimeException("Could not get product"));
+	}
+	
 }
