@@ -22,13 +22,14 @@ spring:
       port: 27017
       username: dbuser 
 
+  application:
+       name: ecomOauth
 divatt: 
   search:
     allowedFields: status
     longTypes: versionNumber
+   
     
-application:
-    name: ecomOauth
           
 logging:
   level:
