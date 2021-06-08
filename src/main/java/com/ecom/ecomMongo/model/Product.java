@@ -1,4 +1,6 @@
 package com.ecom.ecomMongo.model;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -83,7 +85,7 @@ public class Product {
 	
 	public boolean active;
 	
-	public int size;
+	public List<String> size;
 	
 	public int length;
 	
@@ -401,11 +403,11 @@ public class Product {
 		this.active = active;
 	}
 
-	public int getSize() {
+	public List<String> getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(List<String> size) {
 		this.size = size;
 	}
 

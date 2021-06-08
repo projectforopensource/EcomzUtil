@@ -38,4 +38,15 @@ public class SubcategoryServices {
 		// TODO Auto-generated method stub
 		return repository.findByStatus(status);
 	}
+
+	public void deleteSubCategoryById(Integer subcatId) {
+		// TODO Auto-generated method stub
+		 repository.deleteById(subcatId);
+		
+	}
+
+	public List<SubCategory> getSubcategoryByCategoryId(Integer categoryId) {
+		// TODO Auto-generated method stub
+		return repository.findByCategoryId(categoryId);
+	}
 }

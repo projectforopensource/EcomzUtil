@@ -34,4 +34,10 @@ public class CategoryServices {
 		// TODO Auto-generated method stub
 		return repository.findByStatus(status);
 	}
+
+	public void deleteCategory(Integer catId) {
+		// TODO Auto-generated method stub
+		repository.deleteById(catId);
+		
+	}
 }

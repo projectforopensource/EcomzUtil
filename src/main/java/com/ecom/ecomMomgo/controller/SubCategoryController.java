@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,4 +57,19 @@ public class SubCategoryController {
 				.orElseThrow(() -> new RuntimeException("Could not get any record"));
 
 	}
+	@DeleteMapping(path="/deleteSubCategoryById/{subcatId}")
+	public void deleteSubCategoryById(@PathVariable Integer subcatId)
+	{
+		services.deleteSubCategoryById(subcatId);
+	}
+	
+	@GetMapping(path = "/subCategory/getSubcategoryByCategoryId/{categoryId}")
+	public ResponseEntity<?> getSubcategoryByCategoryId(@PathVariable Integer categoryId) {
+
+		return (ResponseEntity<?>) Optional.of(services.getSubcategoryByCategoryId(categoryId))
+				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+				.orElseThrow(() -> new RuntimeException("Could not get any record"));
+
+	}
+	
 }
