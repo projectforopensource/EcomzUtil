@@ -23,7 +23,7 @@ spring:
       username: dbuser 
 
   application:
-       name: ecomOauth
+       name: DivattUtil
 divatt: 
   search:
     allowedFields: status

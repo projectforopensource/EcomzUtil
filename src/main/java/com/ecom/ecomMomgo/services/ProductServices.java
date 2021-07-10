@@ -1,5 +1,6 @@
 package com.ecom.ecomMomgo.services;
 
+import java.util.Arrays;
 import java.util.List;
 
 import java.util.Map;
@@ -19,8 +20,10 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 import com.ecom.ecomMongo.model.CustomizedProduct;
 import com.ecom.ecomMongo.model.Product;
+import com.ecom.ecomMongo.model.SkuProduct;
 import com.ecom.ecomMongo.repository.CustomizeProductRepository;
 import com.ecom.ecomMongo.repository.ProductRepository;
+import com.ecom.ecomMongo.repository.SkuProductRepository;
 
 @Service
 public class ProductServices {
@@ -36,6 +39,12 @@ public class ProductServices {
 	
 	@Autowired	
 	private CustomizeProductRepository custProductRepo;
+	
+	@Autowired
+	private SequenceGeneratorService sequenceGeneratorService;
+	
+	@Autowired
+	private SkuProductRepository skuProductRepository;
 
 	public List<Product> saveProductService(List<Product> products) {
 
@@ -64,16 +73,68 @@ public class ProductServices {
 	}
 
 	public String saveMongoOperations(List<Product> products) {
-		for (Product product : products) {
-
+		/*
+		 * for (Product product : products) {
+		 * 
+		 * TextIndexDefinition textIndex = new
+		 * TextIndexDefinition.TextIndexDefinitionBuilder().onField("prdDesc")
+		 * .onField("prdName").onField("color").onField("skuCode").build();
+		 * mongoTemplate.indexOps(Product.class).ensureIndex(textIndex);
+		 * mongoTemplate.save(product);
+		 * 
+		 * }
+		 */
+		products.stream().forEach(p -> {
 			TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder().onField("prdDesc")
 					.onField("prdName").onField("color").onField("skuCode").build();
 			mongoTemplate.indexOps(Product.class).ensureIndex(textIndex);
-			mongoTemplate.save(product);
-
-		}
+			Product product=mongoTemplate.save(p);
+			Query query = new Query();
+			query.addCriteria(Criteria.where("productId").is(p.getRowIndex()));
+			//mongoTemplate.findAndRemove(query, SkuProduct.class);
+			mongoTemplate.remove(query,SkuProduct.class);
+			List<String> skuList=Arrays.asList(product.getSkuCode().split(","));
+			if(skuList.size()>1)
+			{
+				skuList.stream().forEach(size->{
+					mongoTemplate.save(createSkuProduct(product,size));
+				});
+				
+			}
+			
+		});
 		return "Saved sucessful";
 
+	}
+
+	private SkuProduct createSkuProduct(Product p, String size) {
+
+		
+
+		SkuProduct skuProduct = new SkuProduct();
+		skuProduct.setActive(p.isActive());
+		skuProduct.setApproved(p.isApproved());
+		skuProduct.setApprovedBy(p.getApprovedBy());
+		skuProduct.setBrand(p.getBrand());
+		skuProduct.setCodAvl(p.isCodAvl());
+		skuProduct.setColor(p.getColor());
+		skuProduct.setCurrencyType(p.getCurrencyType());
+		skuProduct.setDesignerId(p.getDesignerId());
+		skuProduct.setDesignerName(p.getDesignerName());
+		skuProduct.setFrdURL(p.getFrdURL());
+		skuProduct.setGender(p.getGender());
+		skuProduct.setGiftWrapAmt(p.getGiftWrapAmt());
+		skuProduct.setGiftWrapAvl(p.isGiftWrapAvl());
+		skuProduct.setIfLowerCustomization(p.getIfLowerCustomization());
+		skuProduct.setIfUpperBodyCustomization(p.getIfUpperBodyCustomization());
+		skuProduct.setImg1(p.getImg1());
+		skuProduct.setImg2(p.getImg2());
+		skuProduct.setImg3(p.getImg3());
+		skuProduct.setProductId(p.getRowIndex());
+		skuProduct.setSize(size);
+		skuProduct.setId(sequenceGeneratorService.generateSequence(SkuProduct.SIZESEQUENCE));
+
+		return skuProduct;
 	}
 
 	public List<Product> findBySearch(String searchValue) {
