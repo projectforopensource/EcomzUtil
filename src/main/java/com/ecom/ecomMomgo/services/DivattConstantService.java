@@ -42,6 +42,7 @@ public class DivattConstantService {
 			existingConstant.setConstValue(cons.getConstValue());
 			existingConstant.setCreatedBy(cons.getCreatedBy());
 			existingConstant.setStatus(cons.getStatus());
+			existingConstant.setImagePath(cons.getImagePath());
 			mongoTemplate.save(existingConstant);
 		}
 	}

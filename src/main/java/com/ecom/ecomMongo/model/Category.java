@@ -15,6 +15,7 @@ public class Category {
 	  private String categoryDescription; 
 	  private Boolean status;
 	  private String categoryUrl;
+	  private String mobileImagePath;
 	
 	
 	  public String getCategoryName() {
@@ -59,6 +60,14 @@ public class Category {
 
 	public void setCategoryUrl(String categoryUrl) {
 		this.categoryUrl = categoryUrl;
+	}
+
+	public String getMobileImagePath() {
+		return mobileImagePath;
+	}
+
+	public void setMobileImagePath(String mobileImagePath) {
+		this.mobileImagePath = mobileImagePath;
 	}
 
 	

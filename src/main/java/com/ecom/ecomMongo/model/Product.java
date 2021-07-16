@@ -121,6 +121,8 @@ public class Product {
 	
 	public Boolean ifLowerCustomization;
 	
+	public String adminComment;
+	
 	
 	
 	 public int getRowIndex() {
@@ -548,6 +550,14 @@ public class Product {
 	}
 
 	
+	public String getAdminComment() {
+		return adminComment;
+	}
+
+	public void setAdminComment(String adminComment) {
+		this.adminComment = adminComment;
+	}
+
 	@Override
 	    public String toString() {
 	        return "Product{" +

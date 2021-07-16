@@ -29,5 +29,6 @@ public class DivattConstants {
 	private Date created;
 	private Date lastModified;
 	private String createdBy;
+	private String imagePath;
 
 }
