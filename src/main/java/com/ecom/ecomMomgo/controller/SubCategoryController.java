@@ -32,7 +32,7 @@ public class SubCategoryController {
 	}
 
 	@GetMapping(path = "/subCategory/{subCatId}")
-	public ResponseEntity<?> findCatagoryById(@PathVariable Integer subCatId) {
+	public ResponseEntity<?> findCatagoryById(@PathVariable Long subCatId) {
 
 		return (ResponseEntity<?>) Optional.of(services.getSubCategoryById(subCatId))
 				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
@@ -58,7 +58,7 @@ public class SubCategoryController {
 
 	}
 	@DeleteMapping(path="/deleteSubCategoryById/{subcatId}")
-	public void deleteSubCategoryById(@PathVariable Integer subcatId)
+	public void deleteSubCategoryById(@PathVariable Long subcatId)
 	{
 		services.deleteSubCategoryById(subcatId);
 	}

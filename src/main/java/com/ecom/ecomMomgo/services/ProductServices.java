@@ -36,34 +36,53 @@ public class ProductServices {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
-	
-	@Autowired	
+
+	@Autowired
 	private CustomizeProductRepository custProductRepo;
-	
+
 	@Autowired
 	private SequenceGeneratorService sequenceGeneratorService;
-	
+
 	@Autowired
 	private SkuProductRepository skuProductRepository;
 
 	public List<Product> saveProductService(List<Product> products) {
 
-		// return repository.saveAll(products);
-		saveMongoOperations(products);
+		products.forEach(p -> {
+			if (getProductByRowIndex(p.getId()) == null) {
+				saveMongoOperations(products);
+			} else {
+				Product product = getProductByRowIndex(p.getId());
+				p.setId(product.getId());
+				mongoTemplate.save(p);
+
+			}
+		});
 		return products;
+	}
+
+	private void copyToExistingProduct(Product p, Product product) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public Optional<Product> getProductById(Integer specid) {
 		return repository.findById(specid);
 	}
 
+	public Product getProductByRowIndex(Long rowIndex) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("id").is(rowIndex));
+		return mongoOperations.findOne(query, Product.class);
+	}
+
 	public List<Product> getAllProducts() {
 		return repository.findAll();
 	}
 
-	public List<Product> findProductsBySubCatId(int id) {
+	public List<Product> findProductsBySubCatId(String id) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("prodRefId").is(id));
+		query.addCriteria(Criteria.where("subCategoryId").is(id));
 		return mongoTemplate.find(query, Product.class);
 	}
 
@@ -88,28 +107,26 @@ public class ProductServices {
 			TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder().onField("prdDesc")
 					.onField("prdName").onField("color").onField("skuCode").build();
 			mongoTemplate.indexOps(Product.class).ensureIndex(textIndex);
-			Product product=mongoTemplate.save(p);
+			p.setId(sequenceGeneratorService.generateSequence(Product.PRODUCTSEQUENCE));
+			Product product = mongoTemplate.save(p);
 			Query query = new Query();
-			query.addCriteria(Criteria.where("productId").is(p.getRowIndex()));
-			//mongoTemplate.findAndRemove(query, SkuProduct.class);
-			mongoTemplate.remove(query,SkuProduct.class);
-			List<String> skuList=Arrays.asList(product.getSkuCode().split(","));
-			if(skuList.size()>1)
-			{
-				skuList.stream().forEach(size->{
-					mongoTemplate.save(createSkuProduct(product,size));
+			query.addCriteria(Criteria.where("productId").is(p.getId()));
+			// mongoTemplate.findAndRemove(query, SkuProduct.class);
+			mongoTemplate.remove(query, SkuProduct.class);
+			List<String> skuList = Arrays.asList(product.getSkuCode().split(","));
+			if (skuList.size() > 1) {
+				skuList.stream().forEach(size -> {
+					mongoTemplate.save(createSkuProduct(product, size));
 				});
-				
+
 			}
-			
+
 		});
 		return "Saved sucessful";
 
 	}
 
 	private SkuProduct createSkuProduct(Product p, String size) {
-
-		
 
 		SkuProduct skuProduct = new SkuProduct();
 		skuProduct.setActive(p.isActive());
@@ -130,7 +147,7 @@ public class ProductServices {
 		skuProduct.setImg1(p.getImg1());
 		skuProduct.setImg2(p.getImg2());
 		skuProduct.setImg3(p.getImg3());
-		skuProduct.setProductId(p.getRowIndex());
+		skuProduct.setProductId(p.getId());
 		skuProduct.setSize(size);
 		skuProduct.setId(sequenceGeneratorService.generateSequence(SkuProduct.SIZESEQUENCE));
 
@@ -149,6 +166,7 @@ public class ProductServices {
 		query.addCriteria(Criteria.where("designerName").is(designer));
 		return mongoTemplate.find(query, Product.class);
 	}
+
 	public List<Product> findProductsByDesignerId(String id) {
 		// TODO Auto-generated method stub
 		Query query = new Query();
@@ -162,15 +180,13 @@ public class ProductServices {
 		query.addCriteria(Criteria.where("isApproved").is(isApproved));
 		return mongoTemplate.find(query, Product.class);
 	}
-	
+
 	public List<Product> findApprovedProductsByDesignerId(String designerId, Boolean approved) {
 		// TODO Auto-generated method stub
 		Query query = new Query();
 		query.addCriteria(Criteria.where("designerId").is(designerId));
-		List<Product> prodList= mongoTemplate.find(query, Product.class);
-		return prodList.stream()
-				.filter(p->p.isApproved==approved)
-				.collect(Collectors.toList());
+		List<Product> prodList = mongoTemplate.find(query, Product.class);
+		return prodList.stream().filter(p -> p.isApproved == approved).collect(Collectors.toList());
 	}
 
 	public List<CustomizedProduct> findcustomizedProductsByDesignerId(String designerId) {

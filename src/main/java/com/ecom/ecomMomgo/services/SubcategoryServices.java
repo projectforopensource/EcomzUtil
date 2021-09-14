@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import com.ecom.ecomMongo.model.Category;
 import com.ecom.ecomMongo.model.SubCategory;
 import com.ecom.ecomMongo.repository.SubCategoryRepository;
 
@@ -19,15 +21,36 @@ public class SubcategoryServices {
 	@Autowired
 	private SubCategoryRepository repository;
 	
+	@Autowired
+	private MongoTemplate mongoTemplate;
+	
+	@Autowired
+	private SequenceGeneratorService sequenceGeneratorService;
+	
 	public List<SubCategory> saveSubcategoryService(List<SubCategory> subCategories) {
-		
-		return repository.saveAll(subCategories);
+		for(SubCategory subcategory:subCategories)
+		{
+			if(getSubCategoryById(subcategory.getId()).isEmpty())
+			{
+				subcategory.setId(sequenceGeneratorService.generateSequence(SubCategory.SUBCATEGORYSEQUENCE));
+				repository.save(subcategory);
+				}else {
+					SubCategory existingsubCategory=getSubCategoryById(subcategory.getId()).get();
+					subcategory.setId(existingsubCategory.getId());
+					mongoTemplate.save(subcategory);
+				}
+				
+			
+		}
+		return subCategories;
 	}
 
-	public Optional<SubCategory> getSubCategoryById(Integer subCatId) {
+	public Optional<SubCategory> getSubCategoryById(Long subCatId) {
 		// TODO Auto-generated method stub
 		return repository.findById(subCatId);
 	}
+	
+	
 	
 	public List<SubCategory> getAllSubCategory() {
 		// TODO Auto-generated method stub
@@ -39,7 +62,7 @@ public class SubcategoryServices {
 		return repository.findByStatus(status);
 	}
 
-	public void deleteSubCategoryById(Integer subcatId) {
+	public void deleteSubCategoryById(Long subcatId) {
 		// TODO Auto-generated method stub
 		 repository.deleteById(subcatId);
 		

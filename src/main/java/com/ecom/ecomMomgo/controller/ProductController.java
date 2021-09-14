@@ -63,7 +63,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/findProductList/{SubCatid}")
-	public ResponseEntity<?> getProductsBySubCatId(@PathVariable int SubCatid){
+	public ResponseEntity<?> getProductsBySubCatId(@PathVariable String SubCatid){
 		
 		return (ResponseEntity<?>) Optional.of(service.findProductsBySubCatId(SubCatid))
 				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
@@ -85,8 +85,8 @@ public class ProductController {
 				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
 				.orElseThrow(() -> new RuntimeException("Could not get product"));
 	}
-	@PostMapping("/approveProduct/{productId}/{approvedBy}/{isApproved}")
-	public List<Product> approveProduct(@PathVariable Integer productId,@PathVariable String approvedBy,@PathVariable Boolean isApproved)
+	@PostMapping("/approveProduct/{productId}/{approvedBy}/{isApproved}/{adminComment}")
+	public List<Product> approveProduct(@PathVariable Integer productId,@PathVariable String approvedBy,@PathVariable Boolean isApproved,@PathVariable String adminComment )
 	{
 		//ArrayList<Product> prodArray=new ArrayList<Product>();
 		Optional<Product> products=service.getProductById(productId);
@@ -99,6 +99,7 @@ public class ProductController {
 			Product p=products.get();
 			p.setApproved(isApproved);
 			p.setApprovedBy(approvedBy);
+			p.setAdminComment(adminComment);
 			
 			prodArray.add(p);
 			return service.saveProductService(prodArray);

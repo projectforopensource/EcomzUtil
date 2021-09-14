@@ -1,11 +1,10 @@
 package com.ecom.ecomMongo.model;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
-import com.poiji.annotation.ExcelCell;
-import com.poiji.annotation.ExcelRow;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @author Naidu
@@ -14,8 +13,10 @@ import com.poiji.annotation.ExcelRow;
 
 @Document(collection = "ProductStore")
 public class Product {
+	@Transient
+	public static final String PRODUCTSEQUENCE = "product_sequence";
 	@Id
-    public int rowIndex;
+    public Long id;
 	
 	public String prdName;
 	
@@ -125,13 +126,7 @@ public class Product {
 	
 	
 	
-	 public int getRowIndex() {
-		return rowIndex;
-	}
-
-	public void setRowIndex(int rowIndex) {
-		this.rowIndex = rowIndex;
-	}
+	
 
 	public String getPrdName() {
 		return prdName;
@@ -227,6 +222,14 @@ public class Product {
 
 	public void setMaxAge(int maxAge) {
 		this.maxAge = maxAge;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public boolean isSelfInvMgt() {
@@ -561,7 +564,7 @@ public class Product {
 	@Override
 	    public String toString() {
 	        return "Product{" +
-	                "rowIndex=" + rowIndex +
+	                "rowIndex=" + id +
 	                ", prdName=" + prdName +
 	                ", brand='" + brand + '\'' +
 	                ", modelNumber='" + modelNumber + '\'' +

@@ -11,6 +11,5 @@ import com.ecom.ecomMongo.model.Product;
 public interface ProductRepository extends MongoRepository<Product, Integer>{
 	
 	
-	
 
 }

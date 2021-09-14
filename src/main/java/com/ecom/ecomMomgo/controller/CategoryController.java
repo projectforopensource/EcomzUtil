@@ -31,7 +31,7 @@ public class CategoryController {
 	}
 
 	@GetMapping(path = "/category/{catId}")
-	public ResponseEntity<?> findCatagoryById(@PathVariable Integer catId) {
+	public ResponseEntity<?> findCatagoryById(@PathVariable Long catId) {
 
 		return (ResponseEntity<?>) Optional.of(servie.getCategoryById(catId))
 				.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
@@ -55,7 +55,7 @@ public class CategoryController {
 
 	}
 	@DeleteMapping(path="/deleteCategory/{catId}")
-	public void deleteCategory(@PathVariable Integer catId)
+	public void deleteCategory(@PathVariable Long catId)
 	{
 		servie.deleteCategory(catId);
 	}

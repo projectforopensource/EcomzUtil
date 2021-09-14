@@ -26,7 +26,7 @@ public class SkuProduct {
 	@Id
 	private Long id;
 	
-	private Integer productId;
+	private Long productId;
 	
 	private String prdName;
 	

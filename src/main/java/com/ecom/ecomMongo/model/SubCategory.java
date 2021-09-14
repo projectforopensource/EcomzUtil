@@ -1,14 +1,18 @@
 package com.ecom.ecomMongo.model;
 
+import javax.persistence.Transient;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "SubCategory")
 public class SubCategory {
 
+	@Transient
+	public static final String SUBCATEGORYSEQUENCE = "subcategory_sequence";
 	private Integer categoryId;
 	@Id
-	private Integer subCategoryId;
+	private Long id;
 	private String subCategoryName;
 	private String subCategoryDescription;
 	private Boolean status;
@@ -23,11 +27,12 @@ public class SubCategory {
 	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
 	}
-	public Integer getSubCategoryId() {
-		return subCategoryId;
+	
+	public Long getId() {
+		return id;
 	}
-	public void setSubCategoryId(Integer subCategoryId) {
-		this.subCategoryId = subCategoryId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getSubCategoryName() {
 		return subCategoryName;
